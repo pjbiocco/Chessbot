@@ -1,0 +1,15 @@
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.AssemblyInfoInputs.cache
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.AssemblyInfo.cs
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.csproj.CoreCompileInputs.cache
+C:\Users\Xenor\Documents\projects\Chessbot\bin\Debug\net7.0\Chessbot.exe
+C:\Users\Xenor\Documents\projects\Chessbot\bin\Debug\net7.0\Chessbot.deps.json
+C:\Users\Xenor\Documents\projects\Chessbot\bin\Debug\net7.0\Chessbot.runtimeconfig.json
+C:\Users\Xenor\Documents\projects\Chessbot\bin\Debug\net7.0\Chessbot.dll
+C:\Users\Xenor\Documents\projects\Chessbot\bin\Debug\net7.0\Chessbot.pdb
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.dll
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\refint\Chessbot.dll
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.pdb
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.genruntimeconfig.cache
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\ref\Chessbot.dll
+C:\Users\Xenor\Documents\projects\Chessbot\obj\Debug\net7.0\Chessbot.sourcelink.json
