@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Chessbot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0562875e45838307b254094cd4bc840deacc872e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff610fc6bb6120e41cb7db6e23a989cf0a3b16c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Chessbot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Chessbot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

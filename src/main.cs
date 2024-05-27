@@ -1,15 +1,19 @@
 using System;
 using Chess.Core;
+//using Position;
 
-class HelloWord{
+class Start{
 
     public static void Main()
     {
         BoardState x = FenParser.makeDefaultBoard();
         x.printBoard();
 
-        BoardState y = FenParser.makeBoard("8/5k2/3p4/1p1Pp2p/pP2Pp1P/P4P1K/8/8 b - - 99 50");
-        y.printBoard();
+         Move q = new Move(Position.a1, Position.a8, 0b0100);
+
+
+        //BoardState y = FenParser.makeBoard("8/8/1k6/2b5/2pP4/8/5K2/8 b - d3 0 1");
+        //y.printBoard();
         
     }
 

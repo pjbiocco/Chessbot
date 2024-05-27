@@ -5,15 +5,15 @@ namespace Chess.Core{
         int[] board = new int[64];
         bool isWhiteTurn = true;
         int castleRights = 15; //By default, everyone can castle!
-        string enPeasant = "-";
+        string enPassant = "-";
         int halfClock = 0;
         int fullClock = 0;
 
-        public BoardState(int[] board, bool isWhiteTurn, int castleRights, String enPeasant, int halfClock, int fullClock){
+        public BoardState(int[] board, bool isWhiteTurn, int castleRights, String enPassant, int halfClock, int fullClock){
             this.board = board;
             this.isWhiteTurn = isWhiteTurn;
             this.castleRights = castleRights;
-            this.enPeasant = enPeasant;
+            this.enPassant = enPassant;
             this.halfClock = halfClock;
             this.fullClock = fullClock;
         }
@@ -26,7 +26,11 @@ namespace Chess.Core{
                 }
                 Console.WriteLine("|\n-----------------");
             }
-            Console.WriteLine();
+            Console.WriteLine("Turn: " + (isWhiteTurn ? "White" : "Black"));
+            Console.WriteLine("Castle Rights Code: " + castleRights);
+            Console.WriteLine("En Passant Target: " + enPassant);
+            Console.WriteLine("Half Clock: " + halfClock);
+            Console.WriteLine("Full Clock: " + fullClock);
         }
 
     }

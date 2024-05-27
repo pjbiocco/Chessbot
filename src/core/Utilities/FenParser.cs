@@ -13,7 +13,7 @@ namespace Chess.Core{
             int[] board = new int[64];
             bool isWhite;
             int castleRights;
-            string enPeasant;
+            string enPassant;
             int halfClock;
             int fullClock;
 
@@ -32,19 +32,19 @@ namespace Chess.Core{
 
             isWhite = fenParts[1] == "w";
             castleRights = castleRightsFromString(fenParts[2]);
-            enPeasant = fenParts[3];
+            enPassant = fenParts[3];
             halfClock =  Int32.Parse(fenParts[4]);
             fullClock =  Int32.Parse(fenParts[5]);
 
-            return new BoardState(board, isWhite, castleRights, enPeasant, halfClock, fullClock);
+            return new BoardState(board, isWhite, castleRights, enPassant, halfClock, fullClock);
         }
 
         public static int castleRightsFromString(String rights){
             int rightNum = 0;
             rightNum = rights.Contains('K') ? rightNum + 1 : rightNum;
-            rightNum = rights.Contains('Q') ? rightNum + 1 : rightNum;
-            rightNum = rights.Contains('k') ? rightNum + 1 : rightNum;
-            rightNum = rights.Contains('q') ? rightNum + 1 : rightNum;
+            rightNum = rights.Contains('Q') ? rightNum + 2 : rightNum;
+            rightNum = rights.Contains('k') ? rightNum + 4 : rightNum;
+            rightNum = rights.Contains('q') ? rightNum + 8 : rightNum;
 
             return rightNum;
         }
