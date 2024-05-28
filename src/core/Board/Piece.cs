@@ -7,7 +7,7 @@ namespace Chess.Core{
 
         // Masks
         public const int colorMask = 0b1000;
-        public const int typeMask = 0b0111;
+        public const int pieceMask = 0b0111;
 
         // Types of squares/pieces. First 3 bits 
         public const int empty = 0;
@@ -44,7 +44,7 @@ namespace Chess.Core{
         public static bool isWhite(int piece) => isColor(piece, white);
 
         public static int getPieceColor(int piece) => piece & colorMask;
-        public static int getPieceType(int piece) => piece & typeMask;
+        public static int getPieceType(int piece) => piece & pieceMask;
 
         public static bool isDiagonal(int piece) => getPieceType(piece) is queen or bishop; //getPieceType(piece) == queen || getPieceType(piece) == bishop;
         public static bool isOrthogonal(int piece) => getPieceType(piece) is queen or rook;
@@ -69,7 +69,7 @@ namespace Chess.Core{
             return symbol;
         }
 
-        public static int getPieceTypeFromSymbol(char symbol){
+        public static int getPieceFromSymbol(char symbol){
             int color = char.IsUpper(symbol) ? white : black;
             symbol = char.ToUpper(symbol);
 

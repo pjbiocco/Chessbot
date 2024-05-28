@@ -2,6 +2,11 @@ namespace Chess.Core{
 
     public class BoardState{
 
+        List<Move> moveList = new List<Move>();
+
+        public Bitboard[] bitboards {get; set;} 
+
+
         int[] board = new int[64];
         bool isWhiteTurn = true;
         int castleRights = 15; //By default, everyone can castle!
@@ -9,13 +14,19 @@ namespace Chess.Core{
         int halfClock = 0;
         int fullClock = 0;
 
-        public BoardState(int[] board, bool isWhiteTurn, int castleRights, String enPassant, int halfClock, int fullClock){
+        public BoardState(int[] board, bool isWhiteTurn, int castleRights, string enPassant, int halfClock, int fullClock,
+                          Bitboard[] bitboards){
             this.board = board;
             this.isWhiteTurn = isWhiteTurn;
             this.castleRights = castleRights;
             this.enPassant = enPassant;
             this.halfClock = halfClock;
             this.fullClock = fullClock;
+            this.bitboards = bitboards;
+        }
+
+        public void applyMove(Move m){
+
         }
 
         public void printBoard(){
