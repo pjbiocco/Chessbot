@@ -1,3 +1,0 @@
-namespace Chess.Core{
-    
-}

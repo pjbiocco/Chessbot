@@ -8,16 +8,16 @@ namespace Chess.Core{
 
 
         int[] board = new int[64];
-        bool isWhiteTurn = true;
-        int castleRights = 15; //By default, everyone can castle!
-        string enPassant = "-";
-        int halfClock = 0;
-        int fullClock = 0;
+        public int currentTurn = BitboardType.WHITE;
+        public int castleRights = 15; //By default, everyone can castle!
+        public string enPassant = "-";
+        public int halfClock = 0;
+        public int fullClock = 0;
 
-        public BoardState(int[] board, bool isWhiteTurn, int castleRights, string enPassant, int halfClock, int fullClock,
+        public BoardState(int[] board, int currentTurn, int castleRights, string enPassant, int halfClock, int fullClock,
                           Bitboard[] bitboards){
             this.board = board;
-            this.isWhiteTurn = isWhiteTurn;
+            this.currentTurn = currentTurn;
             this.castleRights = castleRights;
             this.enPassant = enPassant;
             this.halfClock = halfClock;
@@ -37,7 +37,7 @@ namespace Chess.Core{
                 }
                 Console.WriteLine("|\n-----------------");
             }
-            Console.WriteLine("Turn: " + (isWhiteTurn ? "White" : "Black"));
+            Console.WriteLine("Turn: " + (currentTurn == BitboardType.WHITE ? "White" : "Black"));
             Console.WriteLine("Castle Rights Code: " + castleRights);
             Console.WriteLine("En Passant Target: " + enPassant);
             Console.WriteLine("Half Clock: " + halfClock);

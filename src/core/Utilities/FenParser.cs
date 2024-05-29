@@ -13,7 +13,7 @@ namespace Chess.Core{
         public static BoardState makeBoard(String fenString){
 
             int[] board = new int[64];
-            bool isWhite;
+            int isWhite;
             int castleRights;
             string enPassant;
             int halfClock;
@@ -68,7 +68,7 @@ namespace Chess.Core{
                 }
             }
 
-            isWhite = fenParts[1] == "w";
+            isWhite = fenParts[1].ToLower() == "w" ? BitboardType.WHITE : BitboardType.BLACK;
             castleRights = castleRightsFromString(fenParts[2]);
             enPassant = fenParts[3];
             halfClock =  Int32.Parse(fenParts[4]);

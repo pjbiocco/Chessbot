@@ -40,10 +40,14 @@ namespace Chess.Core
         public static bool sameMove(Move a, Move b) => a.value == b.value;
 
         public int startSquare => value & startSquareMask;
-        public int targetSquare => value & endSquareMask >> 6;
+        public int targetSquare => (value & endSquareMask) >> 6;
         public int moveFlags => value >> 12;
 
         public bool isPromotion => moveFlags >= PromoteToQueenFlag;
+
+        public void printMove(){
+            Console.WriteLine("Start:" + startSquare + " End:" + targetSquare); 
+        } 
         
         public int PromotionPieceType{
            get{
