@@ -9,8 +9,8 @@ namespace Chess.Core
         private static int gCol = 6;
 
         //King directions
-        private static int kingUp = 8;
-        private static int kingDown = -8;
+        private static int kingUp = -8;
+        private static int kingDown = 8;
         private static int kingLeft = -1;
         private static int kingRight = 1;
         private static int kingUpLeft = kingUp + kingLeft;
@@ -27,6 +27,12 @@ namespace Chess.Core
         private static int knightDownDownRight = kingDown + kingDownRight;
         private static int knightDownLeftLeft = kingLeft + kingDownLeft;
         private static int knightDownRightRight = kingRight + kingDownRight;
+
+        //Pawn Directions
+        private static int pawnWhiteLeft = kingUpLeft;
+        private static int pawnWhiteRight = kingUpRight;
+        private static int pawnBlackLeft = kingDownLeft;
+        private static int pawnBlackRight = kingDownRight;
 
         public static Bitboard[] generateKingMasks(){
 
@@ -75,7 +81,7 @@ namespace Chess.Core
 
         public static bool validKnightMove(int location, int modifier){
 
-            if(location + modifier < 0 || location + modifier >= 64)                                             return false;
+            if(location + modifier < 0 || location + modifier >= 64)                                            return false;
             if(location % 8 == aCol && (modifier == knightDownDownLeft || modifier == knightUpUpLeft ||
                modifier == knightUpLeftLeft || modifier == knightDownLeftLeft ))                                return false;
             if(location % 8 == hCol && (modifier == knightDownDownRight || modifier == knightUpUpRight ||
@@ -83,6 +89,31 @@ namespace Chess.Core
             if(location % 8 == bCol && (modifier == knightUpLeftLeft || modifier == knightDownLeftLeft ))       return false;
             if(location % 8 == gCol && (modifier == knightDownRightRight || modifier == knightUpRightRight))    return false;
 
+            return true;
+        }
+
+        public static Bitboard[][] generatePawnAttackMasks(){
+            
+            Bitboard[] whitePawns = new Bitboard[64];
+            Bitboard[] blackPawns = new Bitboard[64];
+
+            for(int i = 0; i < whitePawns.Length; i++){
+                if(validPawnAttack(i, pawnWhiteLeft)) whitePawns[i].setBit(i+pawnWhiteLeft);
+                if(validPawnAttack(i, pawnWhiteRight)) whitePawns[i].setBit(i+pawnWhiteRight);
+                if(validPawnAttack(i, pawnBlackLeft)) blackPawns[i].setBit(i+pawnBlackLeft);
+                if(validPawnAttack(i, pawnBlackRight)) blackPawns[i].setBit(i+pawnBlackRight);
+            }
+
+
+            Bitboard[][] result = {whitePawns, blackPawns};
+        
+            return result;
+        }
+
+        public static bool validPawnAttack(int location, int modifier){
+            if(location + modifier < 0 || location + modifier >= 64)                                return false;
+            if(location % 8 == aCol && (modifier == pawnBlackLeft || modifier == pawnWhiteLeft))    return false;
+            if(location % 8 == hCol && (modifier == pawnBlackRight || modifier == pawnWhiteRight))  return false;
             return true;
         }
     }

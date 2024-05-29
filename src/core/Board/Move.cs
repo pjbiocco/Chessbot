@@ -19,8 +19,8 @@ namespace Chess.Core
 
         //Masks
         const ushort startSquareMask = 0b0000000000111111;
-		const ushort endSquareMask = 0b0000111111000000;
-		const ushort flagMask = 0b1111000000000000;
+        const ushort endSquareMask = 0b0000111111000000;
+        const ushort flagMask = 0b1111000000000000;
 
         public Move(ushort moveValue){
             value = moveValue;

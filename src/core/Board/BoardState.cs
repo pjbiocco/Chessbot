@@ -25,10 +25,6 @@ namespace Chess.Core{
             this.bitboards = bitboards;
         }
 
-        public void applyMove(Move m){
-
-        }
-
         public void printBoard(){
             Console.WriteLine("-----------------");
             for(int i = 0; i < 8; i++){
