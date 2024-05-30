@@ -1,0 +1,22 @@
+namespace Chess.Core{
+    public enum PositionMask : ulong{
+        RANK8_MASK = 0xff,
+        RANK7_MASK = 0xff00,
+        RANK6_MASK = 0xff0000,
+        RANK5_MASK = 0xff000000,
+        RANK4_MASK = 0xff00000000,
+        RANK3_MASK = 0xff0000000000,
+        RANK2_MASK = 0xff000000000000,
+        RANK1_MASK = 0xff00000000000000,
+
+        FILEA_MASK = 0x101010101010101,
+        FILEB_MASK = 0x202020202020202,
+        FILEC_MASK = 0x404040404040404, 
+        FILED_MASK = 0x808080808080808,
+        FILEE_MASK = 0x1010101010101010,
+        FILEF_MASK = 0x2020202020202020,
+        FILEG_MASK = 0x4040404040404040,
+        FILEH_MASK = 0x8080808080808080
+
+    }
+}

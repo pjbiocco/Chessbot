@@ -1,6 +1,8 @@
 using System.Reflection.Metadata;
 using System.Threading.Tasks.Dataflow;
 using static Chess.Core.Square;
+using static Chess.Core.Direction;
+using static Chess.Core.PositionMask;
 
 namespace Chess.Core{
 
@@ -53,26 +55,25 @@ namespace Chess.Core{
             return moveList;
         }
 
-        public static MoveList genAllPawnPushes(BoardState currentBoard, MoveList moveList){         
-            int shiftDirection = currentBoard.currentTurn == (int)PieceType.WHITE ? -8 : 8;
-            Bitboard pawnPush = currentBoard.currentTurn == (int)PieceType.WHITE ? currentBoard.getCurrTurnPawns() >> 8 : currentBoard.getCurrTurnPawns() << 8; 
-            pawnPush &= ~currentBoard.getOccupiedSquares();
+        public static MoveList genAllPawnPushes(BoardState currentBoard, MoveList moveList){
+
+            Direction shiftDirection = currentBoard.currentTurn == (int)PieceType.WHITE ? UP : DOWN;
+            PositionMask rankMask = currentBoard.currentTurn == (int)PieceType.WHITE ? RANK3_MASK: RANK6_MASK;
+
+            Bitboard pawnPush = currentBoard.getCurrTurnPawns().shiftBoard(shiftDirection) & ~currentBoard.getOccupiedSquares();
+            Bitboard pawnDoublePush = pawnPush;
 
             Square push = pawnPush.popLeastSignificantBit();
             while(push != NONE){
-                moveList.add(new Move(push-shiftDirection, push)); //Subtraction because we're undoing a shift.
+                moveList.add(new Move(push-(int)shiftDirection, push)); //Subtraction because we're undoing a shift.
                 push = pawnPush.popLeastSignificantBit();
             }
-
-            pawnPush = currentBoard.currentTurn == (int)PieceType.WHITE ? currentBoard.getCurrTurnPawns() >> 8 : currentBoard.getCurrTurnPawns() << 8; 
-            pawnPush &= ~currentBoard.getOccupiedSquares();
-            Bitboard pawnDoublePush = currentBoard.currentTurn == (int)PieceType.WHITE ? (rank3Mask & pawnPush) >> 8 : 
-                                                                                         (rank6Mask & pawnPush) << 8;
-            pawnDoublePush &= ~currentBoard.getOccupiedSquares();
             
+            pawnDoublePush = ((ulong)rankMask & pawnDoublePush).shiftBoard(shiftDirection) & ~currentBoard.getOccupiedSquares();
+                        
             push = pawnDoublePush.popLeastSignificantBit();
             while(push != NONE){
-                moveList.add(new Move(push-2*shiftDirection, push)); //Subtraction because we're undoing a shift.
+                moveList.add(new Move(push-2*(int)shiftDirection, push)); //Subtraction because we're undoing a shift.
                 push = pawnDoublePush.popLeastSignificantBit();
             }           
             return moveList;
