@@ -28,12 +28,12 @@ namespace Chess.Core{
             bitboard &= ~(1UL << square);
         }
 
-        public ulong getLeastSignificantBit(){
-            return ulong.TrailingZeroCount(bitboard);
+        public Square getLeastSignificantBit(){
+            return (Square) ulong.TrailingZeroCount(bitboard);
         }
 
-        public ulong popLeastSignificantBit(){
-            ulong lsb = getLeastSignificantBit();
+        public Square popLeastSignificantBit(){
+            Square lsb = getLeastSignificantBit();
             bitboard = bitboard & (bitboard - 1);
             return lsb;
         }
@@ -54,5 +54,4 @@ namespace Chess.Core{
         public static implicit operator ulong(Bitboard bb) => bb.bitboard;
         public static implicit operator Bitboard(ulong u) => new Bitboard(u);
     }
-
 }

@@ -55,7 +55,7 @@ namespace Chess.Core
 
         public static bool validKingMove(int location, int modifier){
 
-            if(location + modifier < 0 || location + modifier >= 64)                                                     return false;
+            if(location + modifier < 0 || location + modifier >= 64)                                                    return false;
             if(location % 8 == aCol && (modifier == kingLeft || modifier == kingDownLeft || modifier == kingUpLeft))    return false;
             if(location % 8 == hCol && (modifier == kingRight || modifier == kingDownRight || modifier == kingUpRight)) return false;
             return true;

@@ -26,12 +26,12 @@ namespace Chess.Core
             value = moveValue;
         }
 
-        public Move(int startSquare, int endSquare){
-            value = (ushort)(startSquare | endSquare << 6);
+        public Move(Square startSquare, Square endSquare){
+            value = (ushort)((int) startSquare | (int) endSquare << 6);
         }
 
-        public Move(int startSquare, int endSquare, int flag){
-            value = (ushort)(startSquare | endSquare << 6 | flag << 12);
+        public Move(Square startSquare, Square endSquare, int flag){
+            value = (ushort)((int) startSquare | (int) endSquare << 6 | flag << 12);
         }
 
         public bool isNull => value == 0;

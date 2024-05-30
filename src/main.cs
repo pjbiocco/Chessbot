@@ -6,23 +6,19 @@ class Start{
 
     public static void Main()
     {
-         BoardState board = FenParser.makeBoard("2r5/3pk3/8/2P5/8/2K5/8/8 w - - 5 4");
+
+        MoveList x = new MoveList();
+
+        BoardState board = FenParser.makeBoard("rnbqkb1r/1p1p1p1p/p1p1pnp1/8/8/1PNP1P1P/P1P1P1P1/R1BQKBNR w KQkq - 0 1");
         //BoardState board = FenParser.makeDefaultBoard();
         board.printBoard();
 
-        List<Move> moves = MoveGen.genPawnAttacks((int) g4, board);
+        x = MoveGen.genAllPawnPushes(board, x);
 
-        foreach(Move m in moves){
-            m.printMove();
+        for(int i = 0; i < x.index; i++){
+            x.moves[i].printMove();
         }
-        
+         
 
-       //Bitboard[][] x = AttackGenerator.generatePawnAttackMasks();
-
-       //for(int i = 0; i < x[0].Length; i++){
-       //     Console.WriteLine("Board No: " + i);
-       //     x[0][i].printBitBoard();
-       //     Console.WriteLine();
-       //}
     }
 }

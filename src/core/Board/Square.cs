@@ -64,6 +64,7 @@ namespace Chess.Core
         e1 = 60, 
         f1 = 61, 
         g1 = 62,
-        h1 = 63
+        h1 = 63,
+        NONE = 64
     }
 }
