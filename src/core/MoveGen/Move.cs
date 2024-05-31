@@ -5,18 +5,6 @@ namespace Chess.Core
 
         readonly ushort value; //16 bit moves
 
-        //Flags
-        public const int NoFlag = 0b0000;
-		public const int EnPassantCaptureFlag = 0b0001;
-		public const int CastleFlag = 0b0010;
-		public const int PawnTwoUpFlag = 0b0011;
-
-        //Promo flags
-        public const int PromoteToQueenFlag = 0b0100;
-		public const int PromoteToKnightFlag = 0b0101;
-		public const int PromoteToRookFlag = 0b0110;
-		public const int PromoteToBishopFlag = 0b0111;
-
         //Masks
         const ushort startSquareMask = 0b0000000000111111;
         const ushort endSquareMask = 0b0000111111000000;
@@ -30,8 +18,8 @@ namespace Chess.Core
             value = (ushort)((int) startSquare | (int) endSquare << 6);
         }
 
-        public Move(Square startSquare, Square endSquare, int flag){
-            value = (ushort)((int) startSquare | (int) endSquare << 6 | flag << 12);
+        public Move(Square startSquare, Square endSquare, MoveFlag flag){
+            value = (ushort)((int) startSquare | (int) endSquare << 6 | (int) flag << 12);
         }
 
         public bool isNull => value == 0;
@@ -41,30 +29,11 @@ namespace Chess.Core
 
         public int startSquare => value & startSquareMask;
         public int targetSquare => (value & endSquareMask) >> 6;
-        public int moveFlags => value >> 12;
-
-        public bool isPromotion => moveFlags >= PromoteToQueenFlag;
+        public int moveFlag => value >> 12;
 
         public void printMove(){
-            Console.WriteLine("Start:" + startSquare + " End:" + targetSquare); 
+            Console.WriteLine("Start:" + startSquare + " End:" + targetSquare + " Flag: " + moveFlag); 
         } 
-        
-        public int PromotionPieceType{
-           get{
-                switch(moveFlags){
-                    case PromoteToRookFlag:
-                        return Piece.rook;
-                    case PromoteToKnightFlag:
-                        return Piece.knight;
-                    case PromoteToBishopFlag:
-                        return Piece.bishop;
-                    case PromoteToQueenFlag:
-                        return Piece.queen;
-                    default:
-                        return Piece.empty;
-                }
-           } 
-        }
 
     }
 }

@@ -1,13 +1,16 @@
 namespace Chess.Core{
     public enum PieceType{
+        PAWN = 0,
+        KNIGHT = 1,
+        BISHOP = 2, 
+        ROOK = 3,
+        QUEEN = 4,
+        KING = 6
+    }
+
+    public enum Color{
         WHITE = 0,
         BLACK = 1,
-        PAWN = 2,
-        KNIGHT = 3,
-        BISHOP = 4, 
-        ROOK = 5,
-        QUEEN = 6,
-        KING = 7
     }
 }
     

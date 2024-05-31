@@ -1,4 +1,6 @@
-using System.Security.Cryptography.X509Certificates;
+using static Chess.Core.Color;
+using static Chess.Core.PieceType;
+using static Chess.Core.Square;
 
 namespace Chess.Core{
 
@@ -9,12 +11,12 @@ namespace Chess.Core{
         
 
         public static BoardState makeDefaultBoard() => makeBoard(defaultStartFEN);
-        public static BoardState makeBoard(String fenString){
+        public static BoardState makeBoard(string fenString){
 
             int[] board = new int[64];
             int isWhite;
             int castleRights;
-            string enPassant;
+            Square enPassant;
             int halfClock;
             int fullClock;
             
@@ -27,39 +29,40 @@ namespace Chess.Core{
             Bitboard queen = new Bitboard();
             Bitboard king = new Bitboard();
 
-            Bitboard[] bitboards = {white , black, pawn, knight, bishop, rook, queen, king};
+            Bitboard[] occupancy = {white, black};
+            Bitboard[] pieces = {white, black, pawn, knight, bishop, rook, queen, king};
 
             string[] fenParts = fenString.Split(' ');
 
             int i = 0; 
             foreach(char c in fenParts[0]){
-                if(char.IsNumber(c)) i+= (c - '0');
+                if(char.IsNumber(c)) i+= c - '0';
                 else if(c == '/') continue;
                 else{
                     int currentPiece = Piece.getPieceFromSymbol(c);
                     board[i] = currentPiece;
 
-                    if(Piece.isWhite(currentPiece)) bitboards[(int) PieceType.WHITE].setBit(i);
-                    else                            bitboards[(int) PieceType.BLACK].setBit(i);
+                    if(Piece.isWhite(currentPiece)) occupancy[(int) WHITE].setBit(i);
+                    else                            occupancy[(int) BLACK].setBit(i);
 
                     switch(Piece.pieceMask & currentPiece) {
                         case Piece.pawn:
-                            bitboards[(int) PieceType.PAWN].setBit(i);
+                            pieces[(int) PAWN].setBit(i);
                             break;
                         case Piece.knight: 
-                            bitboards[(int) PieceType.KNIGHT].setBit(i);
+                            pieces[(int) KNIGHT].setBit(i);
                             break;
                         case Piece.bishop:
-                            bitboards[(int) PieceType.BISHOP].setBit(i);
+                            pieces[(int) BISHOP].setBit(i);
                             break;
                         case Piece.rook:
-                            bitboards[(int) PieceType.ROOK].setBit(i);
+                            pieces[(int) ROOK].setBit(i);
                             break;
                         case Piece.queen: 
-                            bitboards[(int) PieceType.QUEEN].setBit(i);
+                            pieces[(int) QUEEN].setBit(i);
                             break;
                         case Piece.king:
-                            bitboards[(int) PieceType.KING].setBit(i);
+                            pieces[(int) KING].setBit(i);
                             break;
                     }
                     
@@ -67,14 +70,15 @@ namespace Chess.Core{
                 }
             }
 
-            isWhite = fenParts[1].ToLower() == "w" ? (int) PieceType.WHITE : (int) PieceType.BLACK;
+            isWhite = fenParts[1].ToLower() == "w" ? (int) WHITE : (int) BLACK;
             castleRights = castleRightsFromString(fenParts[2]);
-            enPassant = fenParts[3];
+
+            enPassant = fenParts[3] == "-" ? NONE : (Square) Enum.Parse(typeof(Square), fenParts[3]) ;
             halfClock =  Int32.Parse(fenParts[4]);
             fullClock =  Int32.Parse(fenParts[5]);
 
             return new BoardState(board, isWhite, castleRights, enPassant, halfClock, fullClock,
-                                  bitboards);
+                                  occupancy, pieces);
         }
 
 

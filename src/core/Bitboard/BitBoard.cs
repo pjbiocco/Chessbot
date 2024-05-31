@@ -67,11 +67,20 @@ namespace Chess.Core{
         }
 
         public void printBitBoard(){
+            // for(int i = 0; i < 8; i++){
+            //     for(int j = 0; j < 8; j++){
+            //         Console.Write(getBit(i * 8 + j));
+            //     }
+            //     Console.WriteLine();
+
+            // }
+
+            Console.WriteLine("-----------------");
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
-                    Console.Write(getBit(i * 8 + j));
+                    Console.Write("|" + (getBit(i * 8 + j) == 1 ? "X" : " "));
                 }
-                Console.WriteLine();
+                Console.WriteLine("|\n-----------------");
             }
         }
 
