@@ -52,7 +52,7 @@ namespace Chess.Core{
         public Bitboard getOccupiedSquaresBoard() { return occupancy[(int)WHITE] | occupancy[(int)BLACK]; }
         public int getCurrKingCastleRights(){return currentTurn == (int) WHITE ? castleRights & (int) WHITE_CASTLE_KING_MASK : castleRights & (int) BLACK_CASTLE_QUEEN_MASK;}
         public int getCurrQueenCastleRights(){return currentTurn == (int) WHITE ? castleRights & (int) WHITE_CASTLE_QUEEN_MASK : castleRights & (int) BLACK_CASTLE_QUEEN_MASK;}
-       
+        public PositionMask getPromotionRank(){return currentTurn == (int) WHITE ? RANK8_MASK : RANK1_MASK;}
 
     }
 }

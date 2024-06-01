@@ -18,8 +18,6 @@ namespace Chess.Core{
 
         static ulong[][] castleMasks = {new ulong[]{0x6000000000000000,0xe00000000000000}, new ulong[]{0x60,0xe}};
 
-
-
         public static MoveList genKingMoves(Square start, BoardState currentBoard, MoveList moveList){
 
             Bitboard currentAttacks = kingAttacks[(int)start] & ~currentBoard.getCurrTurnBoard();
@@ -57,10 +55,29 @@ namespace Chess.Core{
         }
 
         public static MoveList genPawnAttacks(Square start, BoardState currentBoard, MoveList moveList){
-            Bitboard currentAttacks = pawnAttacks[currentBoard.currentTurn][(int)start] & ~currentBoard.getCurrTurnBoard();
+
+            Bitboard currentAttacks = pawnAttacks[currentBoard.currentTurn][(int)start] & ~currentBoard.getCurrTurnBoard() & currentBoard.getOppTurnBoard();
+
+            if(currentBoard.enPassant != NONE){
+                Direction epCheckLeft = currentBoard.currentTurn == (int) WHITE ? UPLEFT : DOWNLEFT; 
+                Direction epCheckRight = currentBoard.currentTurn == (int) WHITE ? UPRIGHT : DOWNRIGHT;
+                if((int)currentBoard.enPassant == (int)epCheckLeft + (int)start){moveList.add(new Move(start, currentBoard.enPassant, EP_CAPTURE));}
+                if((int)currentBoard.enPassant == (int)epCheckRight + (int)start){moveList.add(new Move(start, currentBoard.enPassant, EP_CAPTURE));}
+            }
+
             Square attackSquare = currentAttacks.popLeastSignificantBit();
             while(attackSquare != NONE){
-                moveList.add(new Move(start, attackSquare));
+                Bitboard promoCheck = new Bitboard();
+                promoCheck.setBit((int)attackSquare);
+
+                if((promoCheck & currentBoard.getPromotionRank()) != 0){
+                    moveList.add(new Move(start, attackSquare, QUEEN_PROMO_CAP));
+                    moveList.add(new Move(start, attackSquare, ROOK_PROMO_CAP));
+                    moveList.add(new Move(start, attackSquare, BISHOP_PROMO_CAP));
+                    moveList.add(new Move(start, attackSquare, KNIGHT_PROMO_CAP));
+                } else {
+                    moveList.add(new Move(start, attackSquare, CAPTURE));
+                }                
                 attackSquare = currentAttacks.popLeastSignificantBit();
             }
             return moveList;
@@ -76,7 +93,18 @@ namespace Chess.Core{
 
             Square push = pawnPush.popLeastSignificantBit();
             while(push != NONE){
-                moveList.add(new Move(push-(int)shiftDirection, push)); //Subtraction because we're undoing a shift.
+
+                Bitboard promoCheck = new Bitboard();
+                promoCheck.setBit((int)push);
+
+                if((promoCheck & currentBoard.getPromotionRank()) != 0){
+                    moveList.add(new Move(push-(int)shiftDirection, push, QUEEN_PROMO));
+                    moveList.add(new Move(push-(int)shiftDirection, push, ROOK_PROMO));
+                    moveList.add(new Move(push-(int)shiftDirection, push, BISHOP_PROMO));
+                    moveList.add(new Move(push-(int)shiftDirection, push, KNIGHT_PROMO));
+                } else {
+                    moveList.add(new Move(push-(int)shiftDirection, push, QUIET));
+                }
                 push = pawnPush.popLeastSignificantBit();
             }
             
@@ -84,7 +112,7 @@ namespace Chess.Core{
 
             push = pawnDoublePush.popLeastSignificantBit();
             while(push != NONE){
-                moveList.add(new Move(push-2*(int)shiftDirection, push)); //Subtraction because we're undoing a shift.
+                moveList.add(new Move(push-2*(int)shiftDirection, push, DOUBLEPAWN_PUSH)); //Subtraction because we're undoing a shift.
                 push = pawnDoublePush.popLeastSignificantBit();
             }           
             return moveList;
