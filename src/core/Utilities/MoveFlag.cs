@@ -10,7 +10,7 @@ namespace Chess.Core{
         KNIGHT_PROMO =      0b1000,
         BISHOP_PROMO =      0b1001,
         ROOK_PROMO =        0b1010,
-        QUEEN_PROMO =       0b0110,
+        QUEEN_PROMO =       0b1011,
         KNIGHT_PROMO_CAP =  0b1100,
         BISHOP_PROMO_CAP =  0b1101,
         ROOK_PROMO_CAP =    0b1110,

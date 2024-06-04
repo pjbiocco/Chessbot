@@ -14,7 +14,8 @@ namespace Chess.Core{
         public static BoardState makeBoard(string fenString){
 
             int[] board = new int[64];
-            int isWhite;
+            Array.Fill(board, 6);
+            Color isWhite;
             int castleRights;
             Square enPassant;
             int halfClock;
@@ -70,7 +71,7 @@ namespace Chess.Core{
                 }
             }
 
-            isWhite = fenParts[1].ToLower() == "w" ? (int) WHITE : (int) BLACK;
+            isWhite = fenParts[1].ToLower() == "w" ?  WHITE : BLACK;
             castleRights = castleRightsFromString(fenParts[2]);
 
             enPassant = fenParts[3] == "-" ? NONE : (Square) Enum.Parse(typeof(Square), fenParts[3]) ;

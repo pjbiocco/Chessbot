@@ -23,10 +23,10 @@ namespace Chess.Core{
             Bitboard currentAttacks = kingAttacks[(int)start] & ~currentBoard.getCurrTurnBoard();
             Square attackSquare= currentAttacks.popLeastSignificantBit();            
 
-            if(currentBoard.getCurrKingCastleRights() != 0 && (currentBoard.getOccupiedSquaresBoard() & castleMasks[currentBoard.currentTurn][0]) == 0) 
-                moveList.add(castleMoves[currentBoard.currentTurn][0]);
-            if(currentBoard.getCurrQueenCastleRights() != 0 && (currentBoard.getOccupiedSquaresBoard() & castleMasks[currentBoard.currentTurn][1]) == 0) 
-                moveList.add(castleMoves[currentBoard.currentTurn][1]);
+            if(currentBoard.getCurrKingCastleRights() != 0 && (currentBoard.getOccupiedSquaresBoard() & castleMasks[(int)currentBoard.currentTurn][0]) == 0) 
+                moveList.add(castleMoves[(int)currentBoard.currentTurn][0]);
+            if(currentBoard.getCurrQueenCastleRights() != 0 && (currentBoard.getOccupiedSquaresBoard() & castleMasks[(int)currentBoard.currentTurn][1]) == 0) 
+                moveList.add(castleMoves[(int)currentBoard.currentTurn][1]);
            
 
             while(attackSquare != NONE){
@@ -56,7 +56,7 @@ namespace Chess.Core{
 
         public static MoveList genPawnAttacks(Square start, BoardState currentBoard, MoveList moveList){
 
-            Bitboard currentAttacks = pawnAttacks[currentBoard.currentTurn][(int)start] & ~currentBoard.getCurrTurnBoard() & currentBoard.getOppTurnBoard();
+            Bitboard currentAttacks = pawnAttacks[(int)currentBoard.currentTurn][(int)start] & ~currentBoard.getCurrTurnBoard() & currentBoard.getOppTurnBoard();
 
             if(currentBoard.enPassant != NONE){
                 Direction epCheckLeft = currentBoard.currentTurn == (int) WHITE ? UPLEFT : DOWNLEFT; 

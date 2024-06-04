@@ -1,5 +1,5 @@
 namespace Chess.Core{
-    public enum Direction
+    public enum Direction : int
     {
         //KING MOVES
         UP = -8,

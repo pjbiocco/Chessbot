@@ -1,6 +1,6 @@
 namespace Chess.Core
 {
-    public enum Square{
+    public enum Square : int{
         a8 = 0,
         b8 = 1,
         c8 = 2,

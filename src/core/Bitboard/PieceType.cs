@@ -5,7 +5,7 @@ namespace Chess.Core{
         BISHOP = 2, 
         ROOK = 3,
         QUEEN = 4,
-        KING = 6
+        KING = 5
     }
 
     public enum Color{

@@ -27,8 +27,8 @@ namespace Chess.Core
         
         public static bool sameMove(Move a, Move b) => a.value == b.value;
 
-        public int startSquare => value & startSquareMask;
-        public int targetSquare => (value & endSquareMask) >> 6;
+        public Square startSquare =>(Square)(value & startSquareMask);
+        public Square targetSquare => (Square)((value & endSquareMask) >> 6);
         public int moveFlag => value >> 12;
 
         public void printMove(){

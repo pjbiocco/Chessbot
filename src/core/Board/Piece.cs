@@ -10,13 +10,14 @@ namespace Chess.Core{
         public const int pieceMask = 0b0111;
 
         // Types of squares/pieces. First 3 bits 
-        public const int empty = 0;
-        public const int pawn = 1;
-        public const int knight = 2; 
-        public const int bishop = 3; 
-        public const int rook = 4; 
-        public const int queen = 5; 
-        public const int king = 6; 
+        
+        public const int pawn = 0;
+        public const int knight = 1; 
+        public const int bishop = 2; 
+        public const int rook = 3; 
+        public const int queen = 4; 
+        public const int king = 5;
+        public const int empty = 6;
 
         //Piece Color 
         public const int white = 0; 
@@ -40,7 +41,7 @@ namespace Chess.Core{
         public static int MakePiece(int pieceType, int pieceColor) => pieceType | pieceColor;
         public static int MakePiece(int pieceType, bool pieceIsWhite) => MakePiece(pieceType, pieceIsWhite ? white : black);
 
-        public static bool isColor(int piece, int color) => (piece & colorMask) == white && piece != 0; 
+        public static bool isColor(int piece, int color) => (piece & colorMask) == white && piece != 6; 
         public static bool isWhite(int piece) => isColor(piece, white);
 
         public static int getPieceColor(int piece) => piece & colorMask;
