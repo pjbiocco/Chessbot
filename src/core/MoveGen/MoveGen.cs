@@ -13,6 +13,13 @@ namespace Chess.Core{
         static Bitboard[] knightAttacks = AttackGenerator.generateKnightMasks();
         static Bitboard[][] pawnAttacks = AttackGenerator.generatePawnAttackMasks();
 
+        static Bitboard[] rookAttacks = AttackGenerator.generateRookAttackMasks();
+        static Bitboard[][] rookDict = MagicGen.makeRookDict();
+
+        static Bitboard[] bishopAttacks = AttackGenerator.generateBishopAttackMasks();
+        static Bitboard[][] bishopDict = MagicGen.makeBishopDict();
+
+
         static Move[][] castleMoves = {new Move[]{ new Move(e1, g1, KING_CASTLE), new Move(e1, c1, QUEEN_CASTLE)}, 
                                        new Move[]{ new Move(e8, g8, KING_CASTLE), new Move(e8, c8, QUEEN_CASTLE)} };
 
@@ -115,6 +122,86 @@ namespace Chess.Core{
                 moveList.add(new Move(push-2*(int)shiftDirection, push, DOUBLEPAWN_PUSH)); //Subtraction because we're undoing a shift.
                 push = pawnDoublePush.popLeastSignificantBit();
             }           
+            return moveList;
+        }
+
+        public static MoveList genRookMoves(Square square, BoardState boardState, MoveList moveList){
+
+            Bitboard blocker = boardState.getOccupiedSquaresBoard() & rookAttacks[(int)square];
+            
+            Bitboard start = new Bitboard();
+            start.setBit((int)square);
+            
+            blocker = (start & RANK1_MASK) == 0 ? blocker & ~RANK1_MASK : blocker;
+            blocker = (start & RANK8_MASK) == 0 ? blocker & ~RANK8_MASK : blocker;
+            blocker = (start & FILEA_MASK) == 0 ? blocker & ~FILEA_MASK : blocker;
+            blocker = (start & FILEH_MASK) == 0 ? blocker & ~FILEH_MASK : blocker;
+
+            ulong val =  blocker.bitboard * MagicGen.rMagics[(int)square]>> (64-MagicGen.rBits[(int)square]);
+
+            Bitboard moves = new Bitboard(     
+                rookDict[(int)square][val].bitboard
+            );
+            int count = 0; 
+            for(int i = 0; i < rookDict[(int)square].Length; i++){
+                if(rookDict[(int)square][i] == 0)count ++; 
+            }
+
+            moves &= ~boardState.getCurrTurnBoard();
+
+            Square attackSquare = moves.popLeastSignificantBit();
+
+            while(attackSquare != NONE){
+                MoveFlag flag = QUIET;
+                if(boardState.getOppTurnBoard().getBit((int)attackSquare) != 0) flag = CAPTURE;
+
+                moveList.add(new Move(square, attackSquare, flag));
+                attackSquare = moves.popLeastSignificantBit();
+            }
+            return moveList;
+        }
+
+        public static MoveList genBishopMoves(Square square, BoardState boardState, MoveList moveList){
+
+            Bitboard blocker = boardState.getOccupiedSquaresBoard() & bishopAttacks[(int)square];
+            
+            Bitboard start = new Bitboard();
+            start.setBit((int)square);
+            
+            blocker = (start & RANK1_MASK) == 0 ? blocker & ~RANK1_MASK : blocker;
+            blocker = (start & RANK8_MASK) == 0 ? blocker & ~RANK8_MASK : blocker;
+            blocker = (start & FILEA_MASK) == 0 ? blocker & ~FILEA_MASK : blocker;
+            blocker = (start & FILEH_MASK) == 0 ? blocker & ~FILEH_MASK : blocker;
+
+            ulong val =  blocker.bitboard * MagicGen.bMagics[(int)square]>> (64-MagicGen.bBits[(int)square]);
+
+            Bitboard moves = new Bitboard(     
+                bishopDict[(int)square][val].bitboard
+            );
+            int count = 0; 
+            for(int i = 0; i < bishopDict[(int)square].Length; i++){
+                if(bishopDict[(int)square][i] == 0)count ++; 
+            }
+
+            moves &= ~boardState.getCurrTurnBoard();
+
+            Square attackSquare = moves.popLeastSignificantBit();
+
+            while(attackSquare != NONE){
+                MoveFlag flag = QUIET;
+                if(boardState.getOppTurnBoard().getBit((int)attackSquare) != 0) flag = CAPTURE;
+
+                moveList.add(new Move(square, attackSquare, flag));
+                attackSquare = moves.popLeastSignificantBit();
+            }
+            return moveList;
+        }
+
+        public static MoveList genQueenMoves(Square square, BoardState boardState, MoveList moveList){
+
+            moveList = genBishopMoves(square, boardState, moveList);
+            moveList = genRookMoves(square, boardState, moveList);
+
             return moveList;
         }
     }

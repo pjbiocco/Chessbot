@@ -17,3 +17,4 @@ namespace Chess.Core{
         QUEEN_PROMO_CAP =   0b1111
     }
 }
+

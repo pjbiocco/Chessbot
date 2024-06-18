@@ -74,9 +74,7 @@ namespace Chess.Core{
 
             if(flag == QUEEN_CASTLE){
                 queenSideCastle(move);
-            }
-
-            if(flag == KING_CASTLE){
+            } else if(flag == KING_CASTLE){
                 kingSideCastle(move);
             }
 

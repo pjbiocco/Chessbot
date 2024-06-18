@@ -1,5 +1,4 @@
-using System;
-using System.Runtime.Intrinsics.X86;
+
 using Chess.Core;
 using static Chess.Core.Square;
 
@@ -13,26 +12,24 @@ class Start{
         //BoardState board = FenParser.makeBoard("rnbqkbnr/1ppppp2/6p1/8/8/8/pPPPPPPp/RNBQKBN1 b Qkq - 0 1");
         
 
-        BoardState board = FenParser.makeBoard("r3kb1r/1p2pppp/1pn2n2/3p4/2pP1Bb1/P1P1PN2/1P1N1PPP/R3KB1R b KQkq - 0 9");
+        BoardState board = FenParser.makeBoard("rnbqk2r/pp3p1p/2p2np1/b2p2N1/P2Pp3/1PP3P1/4PPBP/RNBQ1RK1 w kq - 0 9");
         //BoardState board = FenParser.makeDefaultBoard();
         board.printBoard();
 
-        x = MoveGen.genKingMoves(e8, board, x);
+        MoveList list = new MoveList();
 
-        Console.WriteLine();
-        Console.WriteLine("POST MOVE:  ");
+        list = MoveGen.genQueenMoves(d1, board, list);
 
-        board.applyMove(x.moves[0]);
-        board.printBoard();
+        for(int i = 0; i < list.length; i++){
+           list.moves[i].printMove();
+        } 
+        //ulong[] magics = MagicGen.genBishopMagics();
 
-        Console.WriteLine("ROOK: ");
-        board.pieces[(int)PieceType.ROOK].printBitBoard();
-        Console.WriteLine("WHITE: ");
-        board.occupancy[(int)Color.WHITE].printBitBoard();
-        Console.WriteLine("King: ");
-        board.pieces[(int)PieceType.KING].printBitBoard();
-
-        //board.pieces[(int)PieceType.KNIGHT].printBitBoard();
+        // Console.WriteLine("{");
+        // for(int i = 0; i < magics.Length; i++){
+        //     Console.Write(magics[i] + ", ");
+        // }
+        // Console.WriteLine("}");
 
     }
 }

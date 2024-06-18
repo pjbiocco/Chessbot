@@ -29,6 +29,8 @@ namespace Chess.Core{
         WHITE_CASTLE_KING_MASK = 0b0001,
         WHITE_CASTLE_QUEEN_MASK = 0b0010,
         BLACK_CASTLE_KING_MASK = 0b0100,
-        BLACK_CASTLE_QUEEN_MASK = 0b1000
+        BLACK_CASTLE_QUEEN_MASK = 0b1000,
+
+        ERROR = 0b0
     }
 }

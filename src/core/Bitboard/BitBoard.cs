@@ -1,11 +1,12 @@
 
+using System.Runtime.Intrinsics.Arm;
 using static Chess.Core.Direction;
 using static Chess.Core.PositionMask;
 
 namespace Chess.Core{
     public struct Bitboard{
 
-        ulong bitboard {get; set;} 
+        public ulong bitboard {get; set;} 
 
         public Bitboard(){
             bitboard = 0;
@@ -82,6 +83,66 @@ namespace Chess.Core{
                 }
                 Console.WriteLine("|\n-----------------");
             }
+        }
+
+        public static PositionMask getRank(Square square){
+            return ((int) square / 8) switch{
+                
+                0 => RANK8_MASK,
+                1 => RANK7_MASK,
+                2 => RANK6_MASK,
+                3 => RANK5_MASK,
+                4 => RANK4_MASK,
+                5 => RANK3_MASK,
+                6 => RANK2_MASK,
+                7 => RANK1_MASK,
+                _=> ERROR 
+            };
+        }
+
+        public static PositionMask getFile(Square square){
+
+            return ((int)square % 8) switch{
+                0 => FILEA_MASK,
+                1 => FILEB_MASK,
+                2 => FILEC_MASK,
+                3 => FILED_MASK,
+                4 => FILEE_MASK,
+                5 => FILEF_MASK,
+                6 => FILEG_MASK,
+                7 => FILEH_MASK,
+                _ => ERROR 
+            };
+        }
+
+        public static int getRankNum(Square square){
+            return ((int) square / 8) switch{
+                
+                0 => 7,
+                1 => 6,
+                2 => 5,
+                3 => 4,
+                4 => 3,
+                5 => 2,
+                6 => 1,
+                7 => 0,
+                _=> -1 
+            };
+        }
+
+        public static int getFileNum(Square square){
+
+            return ((int)square % 8) switch{
+                0 => 0,
+                1 => 1,
+                2 => 2,
+                3 => 3,
+                4 => 4,
+                5 => 5,
+                6 => 6,
+                7 => 7,
+                _ => -1
+            };
         }
 
         public static implicit operator ulong(Bitboard bb) => bb.bitboard;
