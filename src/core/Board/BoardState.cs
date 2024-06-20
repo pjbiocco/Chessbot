@@ -4,17 +4,17 @@ using static Chess.Core.Square;
 using static Chess.Core.PositionMask;
 using static Chess.Core.MoveFlag;
 using static Chess.Core.Direction;
-using System.Security.Principal;
 
 namespace Chess.Core{
 
+    [Serializable]
     public class BoardState{
 
         public Bitboard[] occupancy {get; set;}
         public Bitboard[] pieces {get; set;} 
 
 
-        int[] board = new int[64];
+        public int[] board = new int[64];
         public Color currentTurn = WHITE;
         public int castleRights = 15; //By default, everyone can castle!
         public Square enPassant = NONE;
@@ -32,6 +32,18 @@ namespace Chess.Core{
             this.occupancy = occupancy;
             this.pieces = pieces;
         }
+
+        public BoardState(BoardState clone){
+            board = (int[]) clone.board.Clone();
+            currentTurn = clone.currentTurn;
+            castleRights = clone.castleRights;
+            enPassant = clone.enPassant;
+            halfClock = clone.halfClock;
+            fullClock = clone.fullClock;
+            occupancy = (Bitboard[]) clone.occupancy.Clone();
+            pieces = (Bitboard[]) clone.pieces.Clone();
+        }
+
 
         public void applyMove(Move move){
 

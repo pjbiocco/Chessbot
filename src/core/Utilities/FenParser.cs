@@ -6,9 +6,7 @@ namespace Chess.Core{
 
     public static class FenParser
     {
-        public const string defaultStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1";
-
-        
+        public const string defaultStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
         public static BoardState makeDefaultBoard() => makeBoard(defaultStartFEN);
         public static BoardState makeBoard(string fenString){

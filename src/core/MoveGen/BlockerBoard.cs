@@ -1,22 +1,18 @@
 using static Chess.Core.PositionMask;
 using static Chess.Core.Direction;
+using static Chess.Core.Square;
+
 namespace Chess.Core{
 
     public static class BlockerBoard{
 
-        public static Bitboard[] blockerMasks(Bitboard moveMask, Square square){
+        public static Bitboard[] rookTrimMask = genTrimmedMoves(true);
+        public static Bitboard[] bishopTrimMask = genTrimmedMoves(false);
 
-            Bitboard start = new Bitboard();
-            start.setBit((int)square);
+        public static Bitboard[] blockerMasks(Bitboard moveMask, Square square, bool isRook){
 
             Bitboard trimmed = new Bitboard(moveMask.bitboard);
-            
-            trimmed = (start & RANK1_MASK) == 0 ? trimmed & ~RANK1_MASK : trimmed;
-            trimmed = (start & RANK8_MASK) == 0 ? trimmed & ~RANK8_MASK : trimmed;
-            trimmed = (start & FILEA_MASK) == 0 ? trimmed & ~FILEA_MASK : trimmed;
-            trimmed = (start & FILEH_MASK) == 0 ? trimmed & ~FILEH_MASK : trimmed;
-
-            
+            trimmed &= isRook ? rookTrimMask[(int)square] : bishopTrimMask[(int)square];
 
             List<int> activeIndicies = new List<int>(); 
             for(int i = 0; i < 64; i++){
@@ -121,6 +117,30 @@ namespace Chess.Core{
             }
 
             return bishopMoves;
+        }
+
+        public static Bitboard[] genTrimmedMoves(bool isRook){
+
+            Bitboard[] attacks = isRook ? AttackGenerator.generateRookAttackMasks() : AttackGenerator.generateBishopAttackMasks();
+
+
+            for(Square i = a8; (int)i < 64; i++){
+            
+
+                Bitboard start = new Bitboard();
+                start.setBit((int)i);
+
+                Bitboard trimmed = new Bitboard(attacks[(int)i].bitboard);
+            
+                trimmed = (start & RANK1_MASK) == 0 ? trimmed & ~RANK1_MASK : trimmed;
+                trimmed = (start & RANK8_MASK) == 0 ? trimmed & ~RANK8_MASK : trimmed;
+                trimmed = (start & FILEA_MASK) == 0 ? trimmed & ~FILEA_MASK : trimmed;
+                trimmed = (start & FILEH_MASK) == 0 ? trimmed & ~FILEH_MASK : trimmed;
+
+                attacks[(int)i] = trimmed;
+            }
+
+            return attacks;
         }
     }
 

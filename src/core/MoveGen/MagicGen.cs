@@ -71,7 +71,7 @@ namespace Chess.Core{
             Bitboard[] rook = AttackGenerator.generateRookAttackMasks();
 
             for(int i = 0; i < magics.Length; i++){
-                magics[i] = genMagicNumber(BlockerBoard.blockerMasks(rook[i], (Square)i), (Square)i, true);
+                magics[i] = genMagicNumber(BlockerBoard.blockerMasks(rook[i], (Square)i, true), (Square)i, true);
             }
 
             return magics;
@@ -83,7 +83,7 @@ namespace Chess.Core{
             Bitboard[] bishop = AttackGenerator.generateBishopAttackMasks();
 
             for(int i = 0; i < magics.Length; i++){
-                magics[i] = genMagicNumber(BlockerBoard.blockerMasks(bishop[i], (Square)i), (Square)i, false);
+                magics[i] = genMagicNumber(BlockerBoard.blockerMasks(bishop[i], (Square)i, false), (Square)i, false);
             }
 
             return magics;
@@ -98,7 +98,7 @@ namespace Chess.Core{
 
                 
 
-                Bitboard[] blockers = BlockerBoard.blockerMasks(rook[i], (Square)i);
+                Bitboard[] blockers = BlockerBoard.blockerMasks(rook[i], (Square)i, true);
                 Bitboard[] rookMoveMasks = new Bitboard[blockers.Length];
                 
                 for(int j = 0; j < blockers.Length; j++){
@@ -117,13 +117,10 @@ namespace Chess.Core{
 
             for(int i = 0; i < rMagics.Length; i++){
 
-                Bitboard[] blockers = BlockerBoard.blockerMasks(bishop[i], (Square)i);
+                Bitboard[] blockers = BlockerBoard.blockerMasks(bishop[i], (Square)i, false);
                 Bitboard[] bishopMoveMasks = new Bitboard[blockers.Length];
                 
                 for(int j = 0; j < blockers.Length; j++){
-                    ulong val = blockers[j].bitboard * bMagics[i] >> (64-bBits[i]);
-
-                    if(i == (int)Square.c1 && val == 0) {Console.WriteLine(j); BlockerBoard.genBishopMoveMask(blockers[j], (Square)i).printBitBoard();}
                     bishopMoveMasks[blockers[j].bitboard * bMagics[i] >> (64-bBits[i])] = BlockerBoard.genBishopMoveMask(blockers[j], (Square)i);
                 }
                 dict[i] = bishopMoveMasks;
