@@ -4,7 +4,6 @@ using static Chess.Core.PositionMask;
 using static Chess.Core.MoveFlag;
 using static Chess.Core.Color;
 using static Chess.Core.PieceType;
-using System.Runtime.CompilerServices;
 
 namespace Chess.Core{
 
@@ -43,9 +42,10 @@ namespace Chess.Core{
             Square start = kingBoard.popLeastSignificantBit();
 
             Bitboard currentAttacks = kingAttacks[(int)start] & ~currentBoard.getCurrTurnBoard();
-            Square attackSquare= currentAttacks.popLeastSignificantBit();            
+            Square attackSquare= currentAttacks.popLeastSignificantBit();      
 
-            if(currentBoard.getCurrKingCastleRights() != 0 && (currentBoard.getOccupiedSquaresBoard() & castleMasks[(int)currentBoard.currentTurn][0]) == 0){
+            if(currentBoard.getCurrKingCastleRights() != 0 &&
+                 (currentBoard.getOccupiedSquaresBoard() & castleMasks[(int)currentBoard.currentTurn][0]) == 0){
                 Move castle = castleMoves[(int)currentBoard.currentTurn][0];
                 if(!isCastleBlocked(currentBoard, castle))moveList.add(castle);
             }
@@ -85,14 +85,17 @@ namespace Chess.Core{
 
         private static MoveList genPawnAttacks(Square start, BoardState currentBoard, MoveList moveList){
 
-            Bitboard currentAttacks = pawnAttacks[(int)currentBoard.currentTurn][(int)start] & ~currentBoard.getCurrTurnBoard() & currentBoard.getOppTurnBoard();
+            Bitboard epBoard = new Bitboard();
+            if(currentBoard.enPassant != NONE) epBoard.setBit((int)currentBoard.enPassant);
 
-            if(currentBoard.enPassant != NONE){
-                Direction epCheckLeft = currentBoard.currentTurn == (int) WHITE ? UPLEFT : DOWNLEFT; 
-                Direction epCheckRight = currentBoard.currentTurn == (int) WHITE ? UPRIGHT : DOWNRIGHT;
-                if((int)currentBoard.enPassant == (int)epCheckLeft + (int)start){moveList.add(new Move(start, currentBoard.enPassant, EP_CAPTURE));}
-                if((int)currentBoard.enPassant == (int)epCheckRight + (int)start){moveList.add(new Move(start, currentBoard.enPassant, EP_CAPTURE));}
-            }
+            Bitboard currentAttacks = pawnAttacks[(int)currentBoard.currentTurn][(int)start] & ~currentBoard.getCurrTurnBoard() & (currentBoard.getOppTurnBoard() | epBoard);
+            
+            // if(currentBoard.enPassant != NONE){
+            //     Direction epCheckLeft = currentBoard.currentTurn == (int) WHITE ? UPLEFT : DOWNLEFT; 
+            //     Direction epCheckRight = currentBoard.currentTurn == (int) WHITE ? UPRIGHT : DOWNRIGHT;
+            //     if((int)currentBoard.enPassant == (int)epCheckLeft + (int)start){moveList.add(new Move(start, currentBoard.enPassant, EP_CAPTURE));}
+            //     if((int)currentBoard.enPassant == (int)epCheckRight + (int)start){moveList.add(new Move(start, currentBoard.enPassant, EP_CAPTURE));}
+            // }
 
             Square attackSquare = currentAttacks.popLeastSignificantBit();
             while(attackSquare != NONE){
@@ -107,7 +110,8 @@ namespace Chess.Core{
                         moveList.add(new Move(start, attackSquare, KNIGHT_PROMO_CAP));
                     }
                 } else {
-                    Move move = new Move(start, attackSquare, CAPTURE);
+                    MoveFlag flag =  attackSquare != currentBoard.enPassant ? CAPTURE : EP_CAPTURE;
+                    Move move = new Move(start, attackSquare, flag);
                     if(testMove(currentBoard, move)) moveList.add(move);
                 }                
                 attackSquare = currentAttacks.popLeastSignificantBit();

@@ -33,7 +33,11 @@ namespace Chess.Core
 
         public void printMove(){
             Console.WriteLine("Start:" + startSquare + " End:" + targetSquare + " Flag: " + moveFlag); 
-        } 
+        }
+
+        public String toString(){
+            return startSquare + "" + targetSquare;
+        }
 
     }
 }

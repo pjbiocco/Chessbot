@@ -90,7 +90,7 @@ namespace Chess.Core{
                 kingSideCastle(move);
             }
 
-            if(flag == DOUBLEPAWN_PUSH) {enPassant = currentTurn == (int)WHITE ? to + (int)DOWN : to + (int)UP; return;}
+            if(flag == DOUBLEPAWN_PUSH) {enPassant = currentTurn == (int)WHITE ? to + (int)DOWN : to + (int)UP;}
             else                        {enPassant = NONE;}
 
             currentTurn = (currentTurn == WHITE) ? BLACK : WHITE;
@@ -196,7 +196,7 @@ namespace Chess.Core{
         public Bitboard getCurrTurnPieceBoard(PieceType piece){ return getCurrTurnBoard() & pieces[(int)piece];}
         public Bitboard getColorPieceBoard(Color color, PieceType piece) {return occupancy[(int) color] & pieces[(int)piece]; }
         public Bitboard getOccupiedSquaresBoard() { return occupancy[(int)WHITE] | occupancy[(int)BLACK]; }
-        public int getCurrKingCastleRights(){return currentTurn == WHITE ? castleRights & (int) WHITE_CASTLE_KING_MASK : castleRights & (int) BLACK_CASTLE_QUEEN_MASK;}
+        public int getCurrKingCastleRights(){return currentTurn == WHITE ? castleRights & (int) WHITE_CASTLE_KING_MASK : castleRights & (int) BLACK_CASTLE_KING_MASK;}
         public int getCurrQueenCastleRights(){return currentTurn == WHITE ? castleRights & (int) WHITE_CASTLE_QUEEN_MASK : castleRights & (int) BLACK_CASTLE_QUEEN_MASK;}
         public PositionMask getPromotionRank(){return currentTurn == WHITE ? RANK8_MASK : RANK1_MASK;}
 
